@@ -3,6 +3,8 @@
 ## 项目目标
 项目的核心目标是把matlab的分析转换成python的版本，最后在vscode的jupyter文件中完成完整的版本。我希望新版本和matlab版本的代码实现的功能内核完全一致 但是更清晰更简洁。
 
+test.ipynb是需要修改成的python版本
+
 这个仓库里的 MATLAB 分析，核心上是“运动轨迹（左右手）→ X/Y 维度对齐与误差建模 → 群体统计/可视化”，并且在 quest 条件下单独走一条心理物理阈值估计路径。最合理的运行顺序是：先 main2.m（构建 results 主数据结构）、再 main_test.m（基于 results 做统计）、最后可选 delay_analysis.m（基于 data_import 做更细的延迟/误差方向分析），而 negLogLikelihoodr.m 是前两条路径都调用的底层似然函数。这个依赖关系分别体现在：main2.m 自己创建 results 并在末尾画图/单被试分析；main_test.m 直接读取 results；delay_analysis.m 开头直接写 data = data_import，说明它通常依赖 main2.m 先把数据加载到工作区。 
 
 ## main2.m（主流程，最重要）
