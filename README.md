@@ -22,9 +22,9 @@ main2.m 的目标非常完整：读每个文件、识别被试和条件、对轨
 
 对齐后每 50 点抽 1 点（Fs=50），得到低频序列，再分别估计 r_std_x 与 r_std_y。
 
-## estimate_r_std 里，X 或 Y 单维序列都做同样处理：去均值、去掉开头 clip 段、换算到 cm 后，用 fminunc(@negLogLikelihoodr, ...) 优化 r_log，最终输出 sqrt(exp(r_log)) 作为该维度不确定性（cm）。这一步是你后续所有“不确定性统计”的源头。 
+estimate_r_std 里，X 或 Y 单维序列都做同样处理：去均值、去掉开头 clip 段、换算到 cm 后，用 fminunc(@negLogLikelihoodr, ...) 优化 r_log，最终输出 sqrt(exp(r_log)) 作为该维度不确定性（cm）。这一步是你后续所有“不确定性统计”的源头。 
 
-## quest 条件则完全是另一条路径：按轮次读关键试次（第4个试次给刺激强度，第6个试次给选择），依据正确/错误对阈值后验做贝叶斯更新，最后从后验分布提取 MAP/mean/median，并把 trial 级 (stim, correct) 转成拟合数据，分别拟合 logistic / weibull / normal 三种心理物理函数的 alpha,beta 参数。你在 main_test.m 里看到的 6 类阈值来源就在这里。 
+quest 条件则完全是另一条路径：按轮次读关键试次（第4个试次给刺激强度，第6个试次给选择），依据正确/错误对阈值后验做贝叶斯更新，最后从后验分布提取 MAP/mean/median，并把 trial 级 (stim, correct) 转成拟合数据，分别拟合 logistic / weibull / normal 三种心理物理函数的 alpha,beta 参数。你在 main_test.m 里看到的 6 类阈值来源就在这里。 
 
 可视化方面，main2.m 一次性提供：群体 CCG（X/Y均值+SEM 阴影）、群体不确定性（X/Y散点+均值条+误差线）、群体 QUEST 指标散点，以及交互式单被试轨迹（1D X/Y 和 2D 轨迹渐变）+单被试汇总图（四条件 CCG 峰值、四条件 X/Y sigma、QUEST 后验图与拟合参数文本）。这说明它是你分析工程里的“主入口+主报告脚本”。 
 
